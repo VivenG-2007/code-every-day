@@ -190,3 +190,45 @@ Map
 SortedMap
 Iterator
 ListIterator
+
+
+Java Collection Interface
+
+The Collection interface includes various methods that can be used to perform different operations on objects.
+
+int size(): Returns the number of elements in the collection.
+boolean isEmpty(): Returns true if the collection contains no elements.
+boolean contains(Object o): Returns true if the collection contains the specified element.
+boolean add(E e): Adds the specified element to the collection. Returns true if the collection changed as a result.
+boolean remove(Object o): Removes a single instance of the specified element from the collection, if it is present.
+boolean containsAll(Collection<?> c): Returns true if the collection contains all elements of the specified collection.
+
+
+
+Java List Interface
+
+The List interface extends the Collection interface and adds methods that are specific to lists. Lists are ordered collections that allow duplicate elements.
+
+Implementations of List Interface:
+ArrayList
+LinkedList
+Stack
+Vector
+
+import java.util.ArrayList;
+import java.util.List;
+class list{
+    static void main() {
+        List<Integer> list=new ArrayList<>();
+        List<Integer> list2=new ArrayList<>();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        System.out.println(list);
+        System.out.println(list.size());
+        System.out.println(list.contains(200));
+        //list.remove(Integer.valueOf(10));
+        list2.addAll(list);
+        System.out.println(list2);
+    }
+}
