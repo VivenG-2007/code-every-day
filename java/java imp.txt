@@ -1,0 +1,192 @@
+Need of Wrapper Classes
+
+Wrapper classes are needed because Java’s java.util classes and the Collection Framework work with objects rather than primitive data types. Data structures such as ArrayList and Vector can store only objects (reference types), not primitive types. Wrapper classes also provide objects for primitive values when an object is required, such as for synchronization in multithreading.
+
+Autoboxing
+
+Autoboxing is the automatic conversion of a primitive data type into its corresponding wrapper class object. For example, int is converted to Integer, long to Long, and double to Double.
+
+int a = 10;
+Integer b = a;   // Autoboxing
+
+Unboxing
+
+Unboxing is the reverse of autoboxing. It is the automatic conversion of a wrapper class object into its corresponding primitive data type. For example, Integer is converted to int, Long to long, and Double to double.
+
+Integer a = 10;
+int b = a;       // Unboxing
+
+
+ArrayList is a resizable array in Java. Unlike a normal array, its size can grow or shrink dynamically when elements are added or removed.
+
+It is part of the java.util package.
+
+import java.util.ArrayList;
+
+ArrayList<Integer> numbers = new ArrayList<>();
+
+numbers.add(10);
+numbers.add(20);
+numbers.add(30);
+
+System.out.println(numbers);
+
+Output:
+
+[10, 20, 30]
+
+
+
+package genericsAndWrapperClasses;
+
+public class WrapperClasses {
+
+    public static void main(String[] args) {
+
+        Integer obj = 12;
+
+        Integer obj2 = Integer.valueOf("12");
+
+        System.out.println(obj2 * 4);
+
+        Boolean myBoolean = Boolean.valueOf("false");
+
+        Integer obj3 = 12;  // autoboxing
+
+        int age = obj3;     // unboxing
+    }
+} 
+
+
+
+
+What are Generics?
+
+Generics in Java allow us to create classes, interfaces, and methods that can work with different data types while providing type safety.
+
+Instead of specifying a particular data type, we use a type parameter such as T.
+
+Why use Generics?
+
+Provides type safety
+Avoids unnecessary type casting
+Makes code reusable
+Detects type errors at compile time
+Commonly used with Collections like ArrayList, HashSet, HashMap
+Without Generics
+ArrayList list = new ArrayList();
+
+list.add(10);
+list.add("Hello");
+
+Integer x = (Integer) list.get(0);
+
+Here, type casting is required.
+
+With Generics
+ArrayList<Integer> list = new ArrayList<>();
+
+list.add(10);
+list.add(20);
+
+Integer x = list.get(0);
+
+No casting is required.
+
+Generic Class
+class Box<T> {
+    T value;
+
+    void set(T value) {
+        this.value = value;
+    }
+
+    T get() {
+        return value;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Box<Integer> b = new Box<>();
+
+        b.set(10);
+
+        System.out.println(b.get());
+    }
+}
+
+Here, T represents the type.
+
+Generic Method
+class Demo {
+    public static <T> void print(T value) {
+        System.out.println(value);
+    }
+
+    public static void main(String[] args) {
+        print(10);
+        print("Hello");
+        print(10.5);
+    }
+}
+
+The same method can work with different data types.
+
+
+
+Bounded Generic Types
+
+use bounded genric to restrict to certain datatypes only
+
+
+In general, the type parameter can accept any data types (except primitive types). However, if we want to use generics for some specific types (such as number types) only, then we can use bounded types.
+
+In the case of bound types, we use the extends keyword.
+
+Here, GenericsClass is created with a bounded type. This means GenericsClass can only work with data types that are children of Number (Integer, Double, and so on).
+
+Example:
+class GenericsClass<T extends Number> {  //this only allows integer,double and not string
+
+    public void display() {
+        System.out.println("This is a bounded type generics class.");
+    }
+}
+
+
+
+
+Java Collection Framework
+
+The Java Collections Framework provides a set of interfaces and classes to implement various data structures and algorithms.
+
+These interfaces include several methods to perform different operations on collections.
+
+Main Interfaces
+                    Collection
+                   /    |     \
+                List   Set    Queue
+                       |       |
+                  SortedSet   Deque
+
+
+                     Map
+                      |
+                  SortedMap
+
+
+                   Iterator
+                      |
+                ListIterator
+Hierarchy
+Collection
+List
+Set
+SortedSet
+Queue
+Deque
+Map
+SortedMap
+Iterator
+ListIterator
