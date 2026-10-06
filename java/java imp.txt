@@ -1,172 +1,214 @@
-Need of Wrapper Classes
+==============================================================
+ JAVA NOTES: WRAPPER CLASSES, GENERICS & COLLECTIONS FRAMEWORK
+==============================================================
 
-Wrapper classes are needed because Java’s java.util classes and the Collection Framework work with objects rather than primitive data types. Data structures such as ArrayList and Vector can store only objects (reference types), not primitive types. Wrapper classes also provide objects for primitive values when an object is required, such as for synchronization in multithreading.
+
+--------------------------------------------------------------
+ 1. WRAPPER CLASSES
+--------------------------------------------------------------
+
+What is a wrapper class?
+ - Converts a primitive data type into an object.
+ - Each primitive has a matching wrapper class:
+
+     Primitive   |  Wrapper Class
+     ------------|---------------
+     byte        |  Byte
+     short       |  Short
+     int         |  Integer
+     long        |  Long
+     float       |  Float
+     double      |  Double
+     char        |  Character
+     boolean     |  Boolean
+
+Need of wrapper classes
+ - Java's java.util classes and the Collection Framework work with
+   objects, not primitive types.
+ - ArrayList, Vector, etc. can store only objects (reference types),
+   not primitives.
+ - Wrapper classes give an object form for a primitive value when an
+   object is required, e.g. for synchronization in multithreading.
 
 Autoboxing
+ - Automatic conversion of a primitive into its wrapper class object.
+ - Examples: int -> Integer, long -> Long, double -> Double
 
-Autoboxing is the automatic conversion of a primitive data type into its corresponding wrapper class object. For example, int is converted to Integer, long to Long, and double to Double.
-
-int a = 10;
-Integer b = a;   // Autoboxing
+     int a = 10;
+     Integer b = a;        // Autoboxing
 
 Unboxing
+ - Reverse of autoboxing: wrapper object -> primitive.
+ - Examples: Integer -> int, Long -> long, Double -> double
 
-Unboxing is the reverse of autoboxing. It is the automatic conversion of a wrapper class object into its corresponding primitive data type. For example, Integer is converted to int, Long to long, and Double to double.
+     Integer a = 10;
+     int b = a;            // Unboxing
 
-Integer a = 10;
-int b = a;       // Unboxing
+Example program
 
+     package genericsAndWrapperClasses;
 
-ArrayList is a resizable array in Java. Unlike a normal array, its size can grow or shrink dynamically when elements are added or removed.
+     public class WrapperClasses {
 
-It is part of the java.util package.
+         public static void main(String[] args) {
 
-import java.util.ArrayList;
+             Integer obj = 12;
 
-ArrayList<Integer> numbers = new ArrayList<>();
+             Integer obj2 = Integer.valueOf("12");   // String -> Integer
+             System.out.println(obj2 * 4);           // Output: 48
 
-numbers.add(10);
-numbers.add(20);
-numbers.add(30);
+             Boolean myBoolean = Boolean.valueOf("false");
 
-System.out.println(numbers);
+             Integer obj3 = 12;     // autoboxing
+             int age = obj3;        // unboxing
+         }
+     }
 
-Output:
+ - Integer.valueOf("12") converts a String into an Integer object.
+ - obj2 * 4 works because Integer is automatically unboxed to int.
 
-[10, 20, 30]
 
+--------------------------------------------------------------
+ 2. ARRAYLIST (INTRODUCTION)
+--------------------------------------------------------------
 
+ - A resizable array in Java.
+ - Size grows or shrinks dynamically when elements are added or
+   removed (unlike a normal array).
+ - Part of the java.util package.
+ - Uses ArrayList<Integer>, not ArrayList<int>, because generics
+   need wrapper classes (autoboxing converts values automatically).
 
-package genericsAndWrapperClasses;
+     import java.util.ArrayList;
 
-public class WrapperClasses {
+     ArrayList<Integer> numbers = new ArrayList<>();
 
-    public static void main(String[] args) {
+     numbers.add(10);
+     numbers.add(20);
+     numbers.add(30);
 
-        Integer obj = 12;
+     System.out.println(numbers);
 
-        Integer obj2 = Integer.valueOf("12");
+     Output:
+     [10, 20, 30]
 
-        System.out.println(obj2 * 4);
 
-        Boolean myBoolean = Boolean.valueOf("false");
+--------------------------------------------------------------
+ 3. GENERICS
+--------------------------------------------------------------
 
-        Integer obj3 = 12;  // autoboxing
+What are generics?
+ - Allow classes, interfaces and methods to work with different
+   data types while providing type safety.
+ - Use a type parameter such as T instead of a fixed data type.
 
-        int age = obj3;     // unboxing
-    }
-} 
+Why use generics?
+ - Provides type safety.
+ - Avoids unnecessary type casting.
+ - Makes code reusable.
+ - Detects type errors at compile time.
+ - Commonly used with collections: ArrayList, HashSet, HashMap.
 
+Without generics (old way)
 
+     ArrayList list = new ArrayList();
 
+     list.add(10);
+     list.add("Hello");
 
-What are Generics?
+     Integer x = (Integer) list.get(0);
 
-Generics in Java allow us to create classes, interfaces, and methods that can work with different data types while providing type safety.
+ - Type casting is required.
+ - Any type can be added, so errors show up only at runtime.
 
-Instead of specifying a particular data type, we use a type parameter such as T.
+With generics (modern way)
 
-Why use Generics?
+     ArrayList<Integer> list = new ArrayList<>();
 
-Provides type safety
-Avoids unnecessary type casting
-Makes code reusable
-Detects type errors at compile time
-Commonly used with Collections like ArrayList, HashSet, HashMap
-Without Generics
-ArrayList list = new ArrayList();
+     list.add(10);
+     list.add(20);
 
-list.add(10);
-list.add("Hello");
+     Integer x = list.get(0);
 
-Integer x = (Integer) list.get(0);
+ - No casting required.
+ - Adding a String gives a compile-time error.
 
-Here, type casting is required.
+Generic class
 
-With Generics
-ArrayList<Integer> list = new ArrayList<>();
+     class Box<T> {
+         T value;
 
-list.add(10);
-list.add(20);
+         void set(T value) {
+             this.value = value;
+         }
 
-Integer x = list.get(0);
+         T get() {
+             return value;
+         }
+     }
 
-No casting is required.
+     class Main {
+         public static void main(String[] args) {
+             Box<Integer> b = new Box<>();
 
-Generic Class
-class Box<T> {
-    T value;
+             b.set(10);
 
-    void set(T value) {
-        this.value = value;
-    }
+             System.out.println(b.get());     // Output: 10
+         }
+     }
 
-    T get() {
-        return value;
-    }
-}
+ - T represents the type, decided when the object is created.
 
-class Main {
-    public static void main(String[] args) {
-        Box<Integer> b = new Box<>();
+Generic method
 
-        b.set(10);
+     class Demo {
+         public static <T> void print(T value) {
+             System.out.println(value);
+         }
 
-        System.out.println(b.get());
-    }
-}
+         public static void main(String[] args) {
+             print(10);
+             print("Hello");
+             print(10.5);
+         }
+     }
 
-Here, T represents the type.
+ - <T> before the return type declares a generic method.
+ - The same method works with different data types.
 
-Generic Method
-class Demo {
-    public static <T> void print(T value) {
-        System.out.println(value);
-    }
+Bounded generic types
+ - A type parameter normally accepts any data type (except
+   primitives).
+ - To restrict it to certain types only, use a bounded type with the
+   "extends" keyword.
 
-    public static void main(String[] args) {
-        print(10);
-        print("Hello");
-        print(10.5);
-    }
-}
+     class GenericsClass<T extends Number> {
+         // allows Integer, Double, etc.
+         // does NOT allow String
 
-The same method can work with different data types.
+         public void display() {
+             System.out.println("This is a bounded type generics class.");
+         }
+     }
 
+ - GenericsClass works only with children of Number
+   (Integer, Double, Float, Long ...).
 
 
-Bounded Generic Types
+--------------------------------------------------------------
+ 4. JAVA COLLECTION FRAMEWORK
+--------------------------------------------------------------
 
-use bounded genric to restrict to certain datatypes only
+ - A set of interfaces and classes to implement various data
+   structures and algorithms.
+ - The interfaces provide methods to perform different operations
+   on collections.
 
+Main interfaces (hierarchy)
 
-In general, the type parameter can accept any data types (except primitive types). However, if we want to use generics for some specific types (such as number types) only, then we can use bounded types.
-
-In the case of bound types, we use the extends keyword.
-
-Here, GenericsClass is created with a bounded type. This means GenericsClass can only work with data types that are children of Number (Integer, Double, and so on).
-
-Example:
-class GenericsClass<T extends Number> {  //this only allows integer,double and not string
-
-    public void display() {
-        System.out.println("This is a bounded type generics class.");
-    }
-}
-
-
-
-
-Java Collection Framework
-
-The Java Collections Framework provides a set of interfaces and classes to implement various data structures and algorithms.
-
-These interfaces include several methods to perform different operations on collections.
-
-Main Interfaces
-                    Collection
-                   /    |     \
-                List   Set    Queue
+                   Collection
+                  /    |     \
+               List   Set    Queue
                        |       |
                   SortedSet   Deque
 
@@ -176,59 +218,183 @@ Main Interfaces
                   SortedMap
 
 
-                   Iterator
+                  Iterator
                       |
-                ListIterator
-Hierarchy
-Collection
-List
-Set
-SortedSet
-Queue
-Deque
-Map
-SortedMap
-Iterator
-ListIterator
+                 ListIterator
+
+ - Map is separate; it does NOT extend Collection.
+
+Collection interface methods
+ - int size()                  : number of elements
+ - boolean isEmpty()           : true if no elements
+ - boolean contains(Object o)  : true if element is present
+ - boolean add(E e)            : adds element; true if collection changed
+ - boolean remove(Object o)    : removes a single instance of the element
+ - boolean containsAll(Collection<?> c)
+                               : true if all elements of c are present
 
 
-Java Collection Interface
+--------------------------------------------------------------
+ 5. LIST INTERFACE
+--------------------------------------------------------------
 
-The Collection interface includes various methods that can be used to perform different operations on objects.
+ - Extends the Collection interface.
+ - Ordered collection that allows duplicate elements.
+ - Implementations: ArrayList, LinkedList, Stack, Vector.
 
-int size(): Returns the number of elements in the collection.
-boolean isEmpty(): Returns true if the collection contains no elements.
-boolean contains(Object o): Returns true if the collection contains the specified element.
-boolean add(E e): Adds the specified element to the collection. Returns true if the collection changed as a result.
-boolean remove(Object o): Removes a single instance of the specified element from the collection, if it is present.
-boolean containsAll(Collection<?> c): Returns true if the collection contains all elements of the specified collection.
+     import java.util.ArrayList;
+     import java.util.List;
+
+     class ListDemo {
+         public static void main(String[] args) {
+             List<Integer> list  = new ArrayList<>();
+             List<Integer> list2 = new ArrayList<>();
+
+             list.add(10);
+             list.add(20);
+             list.add(30);
+
+             System.out.println(list);                // [10, 20, 30]
+             System.out.println(list.size());         // 3
+             System.out.println(list.contains(200));  // false
+
+             // list.remove(Integer.valueOf(10));     // removes value 10
+
+             list2.addAll(list);
+             System.out.println(list2);               // [10, 20, 30]
+         }
+     }
+
+ - list.remove(10) removes the element at INDEX 10.
+ - list.remove(Integer.valueOf(10)) removes the VALUE 10.
+ - addAll() copies all elements of one collection into another.
 
 
+--------------------------------------------------------------
+ 6. LINKEDLIST
+--------------------------------------------------------------
 
-Java List Interface
+ - LinkedList class provides the linked list data structure
+   (it is a doubly linked list).
+ - Elements are not stored together in memory; they are scattered
+   and connected through links.
 
-The List interface extends the Collection interface and adds methods that are specific to lists. Lists are ordered collections that allow duplicate elements.
+     import java.util.*;
 
-Implementations of List Interface:
-ArrayList
-LinkedList
-Stack
-Vector
+     class LinkedListDemo {
+         public static void main(String[] args) {
+             List<Integer> list = new LinkedList<>();
 
-import java.util.ArrayList;
-import java.util.List;
-class list{
-    static void main() {
-        List<Integer> list=new ArrayList<>();
-        List<Integer> list2=new ArrayList<>();
-        list.add(10);
-        list.add(20);
-        list.add(30);
-        System.out.println(list);
-        System.out.println(list.size());
-        System.out.println(list.contains(200));
-        //list.remove(Integer.valueOf(10));
-        list2.addAll(list);
-        System.out.println(list2);
-    }
-}
+             list.add(10);
+             list.add(20);
+             list.add(30);
+
+             for (int i = 0; i < list.size(); i++) {
+                 System.out.println(list.get(i));
+             }
+         }
+     }
+
+     Output:
+     10
+     20
+     30
+
+
+--------------------------------------------------------------
+ 7. VECTOR
+--------------------------------------------------------------
+
+ - Similar to ArrayList, but synchronizes each individual operation.
+ - A lock is applied automatically whenever an operation is done.
+ - If one thread is using the Vector, another thread must wait for
+   the lock to be released, so Vector is thread-safe.
+ - Continuous locking makes Vector slower (less efficient).
+ - In ArrayList, methods are not synchronized: faster, but not
+   thread-safe.
+
+     import java.util.*;
+
+     class VectorDemo {
+         public static void main(String[] args) {
+             List<Integer> list = new Vector<>();
+
+             list.add(10);
+             list.add(20);
+             list.add(30);
+
+             for (int i = 0; i < list.size(); i++) {
+                 System.out.println(list.get(i));
+             }
+         }
+     }
+
+     Output:
+     10
+     20
+     30
+
+ArrayList vs Vector
+
+     Feature          |  ArrayList   |  Vector
+     -----------------|--------------|----------
+     Synchronized     |  No          |  Yes
+     Thread-safe      |  No          |  Yes
+     Performance      |  Faster      |  Slower
+
+
+--------------------------------------------------------------
+ 8. STACK
+--------------------------------------------------------------
+
+ - Follows LIFO order (Last In, First Out).
+ - Elements are added on top and removed from the top only.
+
+Stack methods
+ - void push(E item)  : pushes the item onto the top of the stack
+ - E pop()            : removes and returns the top element;
+                        throws EmptyStackException if empty
+ - E peek()           : returns the top element (does not remove);
+                        throws EmptyStackException if empty
+ - boolean empty()    : returns true if the stack is empty
+
+     import java.util.*;
+
+     class StackDemo {
+         public static void main(String[] args) {
+             Stack<Integer> list = new Stack<>();
+
+             list.push(10);
+             list.push(20);
+             list.push(30);
+
+             while (!list.empty()) {
+                 System.out.println(list.pop());
+             }
+         }
+     }
+
+     Output:
+     30
+     20
+     10
+
+
+--------------------------------------------------------------
+ QUICK REVISION POINTS
+--------------------------------------------------------------
+
+ - Wrapper classes turn primitives into objects (needed by
+   collections).
+ - Autoboxing: primitive -> object.  Unboxing: object -> primitive.
+ - Generics give type safety, remove casting, catch errors at
+   compile time.
+ - Bounded types: <T extends Number> restricts allowed types.
+ - Collection hierarchy: Collection -> List, Set, Queue.
+   Map is separate.
+ - List: ordered, allows duplicates (ArrayList, LinkedList,
+   Vector, Stack).
+ - Vector is synchronized (thread-safe, slower); ArrayList is not.
+ - Stack follows LIFO: push, pop, peek, empty.
+
+==============================================================
