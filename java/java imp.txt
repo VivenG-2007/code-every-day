@@ -398,3 +398,30 @@ Stack methods
  - Stack follows LIFO: push, pop, peek, empty.
 
 ==============================================================
+--------------------------------------------------------------
+ 8. Queue Interface
+--------------------------------------------------------------
+The Queue interface in the Java Collections Framework provides the functionality of the FIFO (First-In-First-Out) queue data structure. It extends the Collection interface.
+linked list has implements both list and queue data structure
+
+• boolean add(E e): Inserts the specified element into the queue.
+**• boolean offer(E e): Inserts the specified element into the queue. Returns true if the element was added successfully, or false if the queue is full.
+• E remove(): Removes and returns the element at the front of the queue. Throws an exception if the queue is empty.
+**• E poll(): Removes and returns the element at the front of the queue. Returns null if the queue is empty.
+• E element(): Retrieves but does not remove the element at the front of the queue. Throws an exception if the queue is empty.
+**• E peek(): Retrieves but does not remove the element at the front of the queue. Returns null if the queue is empty.
+
+--------------------------------------------------------------
+ 8. ArrayDeque Class
+--------------------------------------------------------------
+in this type of data structure we can add/remove from both rear and front on the queue. It is like doubly headed queue
+
+Adding Elements:
+• addFirst(E e) or offerFirst(E e): Adds an element to the front of the deque.
+• addLast(E e) or offerLast(E e): Adds an element to the end of the deque.
+Removing Elements:
+• removeFirst() or pollFirst(): Removes and returns the element at the front of deque.
+• removeLast() or pollLast(): Removes and returns the element at the end of deque.
+Accessing Elements:
+• getFirst() or peekFirst(): Returns the element at the front of the deque without removing it.
+• getLast() or peekLast(): Returns the element at the end of the deque without removing it.
