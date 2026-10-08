@@ -425,3 +425,94 @@ Removing Elements:
 Accessing Elements:
 • getFirst() or peekFirst(): Returns the element at the front of the deque without removing it.
 • getLast() or peekLast(): Returns the element at the end of the deque without removing it.
+
+Stack and Queue Operations Using ArrayDeque
+Stack Operations:
+○ push(E e): Pushes an element onto the stack represented by the deque.
+○ pop(): Pops an element from the stack represented by the deque.
+Queue Operations:
+○ add(E e) or offer(E e): Adds an element to the end of the deque, effectively making it a queue.
+○ remove() or poll(): Removes and returns the element at the front of the deque, making it a queue.
+
+--------------------------------------------------------------
+ 9. Java Set Interface
+--------------------------------------------------------------
+The Set interface of the Java Collections framework provides the features of the mathematical set in Java. It extends the Collection interface.
+Unlike the List interface, sets cannot contain duplicate elements.
+
+Set implements:
+EnumSet
+HashSet - has time complexity of O(1), it helps to make O(n^2) ---> O(n)
+LinkedHashSet - does the same work  hashset but uses linkedlist under the hood ---> O(1)
+TreeSet - this sorts the hash set and stores and when we display it shows in ascending order ---> O(logn)
+
+• add() - adds the specified element to the set
+• addAll() - adds all the elements of the specified collection to the set
+• remove() - removes the specified element from the set
+• removeAll() - removes all the elements from the set that is present in another specified set
+• retainAll() - retains all the elements in the set that are also present in another specified set
+• clear() - removes all the elements from the set
+• size() - returns the length (number of elements) of the set
+• contains() - returns true if the set contains the specified element
+
+
+class set{
+    static void main(String[] args) {
+        //Set<Integer> set=new HashSet<>();
+        Set<Integer> set=new LinkedHashSet<>();
+        set.add(10);
+        //set.add(10);
+        set.add(20);
+        set.add(30);
+        set.add(90);
+        set.remove(10);
+        System.out.println(set);
+    }
+}
+
+• In Java, HashSet is commonly used if we have to access elements randomly. It is because elements in a hash table are accessed using hash codes.
+• The hashcode of an element is a unique identity that helps to identify the element in a hash table.
+• HashSet cannot contain duplicate elements. Hence, each hash set element has a unique hashcode.
+
+hashcode(input) ---> output
+
+When using Set and HashSet in Java, for the primitive types we can just use it without worry about how to implement the hashcode and the comparison logic.
+But when you want to use the Set with a custom class by putting custom objects into the set, that custom class has to implement the hashCode() and equals() methods in order for the HashSet to work.
+
+--------------------------------------------------------------
+ 10. The Map Interface
+--------------------------------------------------------------
+
+In Java, elements of Map are stored in key/value pairs. Keys are unique values associated with individual Values.
+A map cannot contain duplicate keys. And, each key is associated with a single value.
+
+Map Implements:
+
+HashMap
+TreeMap
+EnumMap
+LinkedHashMap
+WeakHashMap
+
+• put(K, V) - Inserts the association of a key K and a value V into the map. If the key is already present, the new value replaces the old value.
+• putAll() - Inserts all the entries from the specified map to this map.
+• putIfAbsent(K, V) - Inserts the association if the key K is not already associated with the value V.
+• get(K) - Returns the value associated with the specified key K. If the key is not found, it returns null.
+• getOrDefault(K, defaultValue) - Returns the value associated with the specified key K. If the key is not found, it returns the defaultValue.
+• containsKey(K) - Checks if the specified key K is present in the map or not.
+
+--------------------------------------------------------------
+ 11. Comparable and Comparator
+--------------------------------------------------------------
+
+To sort custom objects like Student or Employee, we need to provide explicit sorting logic.
+To achieve this, Java provides the Comparable and Comparator interfaces. Comparable and Comparator in Java allow us to define custom sorting behavior for objects, including sorting based on multiple data members.
+
+The Comparable Interface
+
+This interface is found in java.lang package and contains only one method named compareTo(Object). It provides a single sorting sequence only, i.e., you can sort the elements on the basis of single data member only. For example, it may be rollno, name, age or anything else.
+public int compareTo(Object obj): It is used to compare the current object with the specified object. It returns
+
+• positive integer, if the current object is greater than the specified object.
+• negative integer, if the current object is less than the specified object.
+• zero, if the current object is equal to the specified object.
