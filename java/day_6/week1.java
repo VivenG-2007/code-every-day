@@ -1,3 +1,5 @@
+package day_6;
+
 import java.time.*;
 import java.util.*;
 
