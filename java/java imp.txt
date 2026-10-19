@@ -1833,3 +1833,153 @@ Step 7: Learn filter(), map(), sorted(), and reduce().
 Step 8: Solve all practice programs independently.
 
 If you understand and practise all these topics, you will have a strong foundation in Java lambda expressions for exams, coding interviews, collections, and backend development.
+
+WHAT IS A STREAM
+
+A stream is a pipeline for processing a collection of data declaratively (you say what you want, not how to loop). It does not store data and does not modify the original collection.
+
+Structure:
+Source -> Intermediate operations (zero or more) -> Terminal operation (exactly one)
+
+Example:
+
+List<String> titles = books.stream()
+.filter(b -> b.isAvailable())
+.map(b -> b.getTitle())
+.collect(Collectors.toList());
+
+Here, books.stream() is the source, filter and map are intermediate operations, and collect is the terminal operation.
+
+KEY RULES
+Lazy: nothing runs until a terminal operation is called.
+One use only: a stream cannot be reused after a terminal operation (you get IllegalStateException).
+Non-destructive: the original list stays unchanged.
+CREATING STREAMS
+
+list.stream();
+Arrays.stream(array);
+Stream.of(1, 2, 3);
+map.entrySet().stream();
+IntStream.range(1, 5); // gives 1, 2, 3, 4
+
+INTERMEDIATE OPERATIONS (return a Stream)
+
+filter: keeps elements that match a condition (takes a Predicate)
+map: transforms each element (takes a Function)
+sorted: sorts elements, naturally or with a Comparator
+distinct: removes duplicates
+limit(n): keeps the first n elements
+skip(n): skips the first n elements
+flatMap: flattens nested collections into one stream
+peek: lets you look at elements for debugging (takes a Consumer)
+
+Example:
+
+books.stream()
+.filter(b -> b.getPrice() > 300)
+.sorted(Comparator.comparing(Book::getTitle))
+.limit(5)
+.map(Book::getTitle)
+.toList();
+
+TERMINAL OPERATIONS (end the pipeline)
+
+collect(...): gathers results into a List, Set, Map, String, etc.
+toList(): returns an immutable List (Java 16+)
+forEach: performs an action on each element, returns nothing (takes a Consumer)
+count(): returns a long
+reduce: combines all elements into a single value
+anyMatch / allMatch / noneMatch: return a boolean
+findFirst / findAny: return an Optional
+min / max: return an Optional (they need a Comparator)
+
+MAP VS FLATMAP
+
+map: one input gives one output.
+flatMap: one input gives many outputs, which are flattened into one stream.
+
+Example:
+
+// List<List<String>> becomes List<String>
+listOfLists.stream().flatMap(List::stream).toList();
+
+REDUCE
+
+Combines all elements into one value.
+
+int sum = numbers.stream().reduce(0, (a, b) -> a + b);
+int sum2 = numbers.stream().reduce(0, Integer::sum);
+
+COLLECTORS (VERY IMPORTANT)
+
+To collections:
+.collect(Collectors.toList());
+.collect(Collectors.toSet());
+
+Join strings:
+.collect(Collectors.joining(“, “));
+
+To a Map:
+.collect(Collectors.toMap(Book::getId, Book::getTitle));
+
+Group by (the most important one):
+Map<String, List<Book>> byGenre =
+books.stream().collect(Collectors.groupingBy(Book::getGenre));
+
+Group and count:
+Map<String, Long> countByGenre =
+books.stream().collect(Collectors.groupingBy(Book::getGenre, Collectors.counting()));
+
+Split into true and false groups:
+Map<Boolean, List<Book>> parts =
+books.stream().collect(Collectors.partitioningBy(Book::isAvailable));
+
+OPTIONAL (returned by findFirst, min, max)
+
+Optional is a container that may or may not hold a value. It helps prevent NullPointerException.
+
+Optional<Book> book = books.stream()
+.filter(b -> b.getId() == 5)
+.findFirst();
+
+book.isPresent(); // true or false
+book.orElse(defaultBook); // fallback value
+book.orElseThrow(() -> new BookNotFoundException(“Not found”));
+book.map(Book::getTitle); // transform if present
+
+Avoid calling .get() without checking first. Prefer orElse, orElseThrow, or ifPresent.
+
+PRIMITIVE STREAMS
+
+IntStream, LongStream and DoubleStream avoid boxing and offer extra methods.
+
+books.stream().mapToInt(Book::getPages).sum();
+books.stream().mapToDouble(Book::getPrice).average(); // returns OptionalDouble
+IntStream.rangeClosed(1, 5).sum(); // 15
+
+LIBRARY MANAGER EXAMPLES
+
+Titles by an author:
+books.stream()
+.filter(b -> b.getAuthor().equals(“Orwell”))
+.map(Book::getTitle)
+.toList();
+
+Overdue loans:
+loans.stream()
+.filter(l -> l.getDueDate().isBefore(LocalDate.now()))
+.toList();
+
+Books borrowed per member:
+loans.stream()
+.collect(Collectors.groupingBy(Loan::getMemberId, Collectors.counting()));
+
+Is any copy available:
+boolean any = books.stream().anyMatch(Book::isAvailable);
+
+COMMON MISTAKES
+Forgetting the terminal operation, so nothing happens.
+Reusing a stream after it has been consumed.
+Modifying the source list inside the pipeline.
+Calling .get() on an Optional without checking.
+Using a stream where a simple loop is clearer. Streams are a tool, not a rule.
