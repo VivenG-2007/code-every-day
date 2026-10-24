@@ -14,6 +14,8 @@ public class Main {
         OrderService service = context.getBean(OrderService.class);
         service.order();
     }
+
+
 //    @Bean
 //    public UserService getUserService(){
 //        return new UserService();
