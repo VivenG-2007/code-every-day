@@ -1,13 +1,12 @@
+
 package in.viven.CRUDSpringBootDemo.repositories;
 
-
 import in.viven.CRUDSpringBootDemo.entity.Student;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@Component
-public class StudentRepositories {
-    public Student SaveStudent(Student studentreq){
-        //save to db
-        return null;
-    }
+@Repository
+public interface StudentRepositories
+        extends JpaRepository<Student, Long> {
+
 }
