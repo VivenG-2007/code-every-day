@@ -3,6 +3,7 @@ package in.viven.CRUDSpringBootDemo.service;
 
 import in.viven.CRUDSpringBootDemo.entity.Student;
 import in.viven.CRUDSpringBootDemo.repositories.StudentRepositories;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,15 +19,16 @@ public class StudentService {
     }
 
     public Student createStudent(Student studentreq) {
+        studentreq.setDeleted(false);
         Student studentres = studentRepositories.save(studentreq);
         return studentres;
     }
     public Student getStudent(Long id){
-        Optional<Student> res= studentRepositories.findById(id);
+        Optional<Student> res= studentRepositories.findByIdAndDeletedIsFalse(id);
         return res.orElse(null);
     }
     public List<Student> getAllStudents(){
-        List<Student> studentres=studentRepositories.findAll();
+        List<Student> studentres=studentRepositories.findAllAndDeletedIsNull();
         return studentres;
     }
     public Student updateStudent(Long id,Student studentReq){
@@ -39,6 +41,7 @@ public class StudentService {
         studentToSave.setName(studentReq.getName());
         studentToSave.setEmail(studentReq.getEmail());
         studentToSave.setRollno(studentReq.getRollno());
+        studentToSave.setDeleted(false);
         return studentRepositories.save(studentToSave);
     }
     public Boolean deleteStudent(Long id){
@@ -47,6 +50,16 @@ public class StudentService {
             return false;
         }
         studentRepositories.deleteById(id);
+        return true;
+    }
+
+    public Boolean softDeleteStudent(Long id){
+        Optional<Student> student = Optional.ofNullable(studentRepositories.deleteByIdAndDeletedIsFalse(id));
+        if(student.isEmpty()){
+            return false;
+        }
+        Student studentToSave=student.get();
+        studentToSave.setDeleted(true);
         return true;
     }
 }
