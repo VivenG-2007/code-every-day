@@ -1,9 +1,7 @@
-
 package in.viven.CRUDSpringBootDemo.service;
 
 import in.viven.CRUDSpringBootDemo.entity.Student;
 import in.viven.CRUDSpringBootDemo.repositories.StudentRepositories;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,47 +17,75 @@ public class StudentService {
     }
 
     public Student createStudent(Student studentreq) {
+        studentreq.setId(null);
         studentreq.setDeleted(false);
-        Student studentres = studentRepositories.save(studentreq);
-        return studentres;
+        return studentRepositories.save(studentreq);
     }
-    public Student getStudent(Long id){
-        Optional<Student> res= studentRepositories.findByIdAndDeletedIsFalse(id);
-        return res.orElse(null);
+
+    public Student getStudent(Long id) {
+        return studentRepositories.findActiveById(id).orElse(null);
     }
-    public List<Student> getAllStudents(){
-        List<Student> studentres=studentRepositories.findAllAndDeletedIsNull();
-        return studentres;
+
+    public List<Student> getAllStudents() {
+        return studentRepositories.findAllActive();
     }
-    public Student updateStudent(Long id,Student studentReq){
-        Optional<Student> existing= studentRepositories.findById(id);
-        if(existing.isEmpty()){
+
+    public List<Student> getDeletedStudents() {
+        return studentRepositories.findAllDeleted();
+    }
+
+    public Student updateStudent(Long id, Student studentReq) {
+        Optional<Student> existing = studentRepositories.findActiveById(id);
+        if (existing.isEmpty()) {
             return null;
         }
-        Student studentToSave=existing.get();
-        studentToSave.setAge(studentReq.getAge());
-        studentToSave.setName(studentReq.getName());
-        studentToSave.setEmail(studentReq.getEmail());
-        studentToSave.setRollno(studentReq.getRollno());
+        Student studentToSave = existing.get();
+        if (studentReq.getName() != null && !studentReq.getName().trim().isEmpty()) {
+            studentToSave.setName(studentReq.getName().trim());
+        }
+        if (studentReq.getAge() > 0) {
+            studentToSave.setAge(studentReq.getAge());
+        }
+        if (studentReq.getEmail() != null && !studentReq.getEmail().trim().isEmpty()) {
+            studentToSave.setEmail(studentReq.getEmail().trim());
+        }
+        if (studentReq.getRollno() > 0) {
+            studentToSave.setRollno(studentReq.getRollno());
+        }
+        if (studentReq.getSubject() != null && !studentReq.getSubject().trim().isEmpty()) {
+            studentToSave.setSubject(studentReq.getSubject().trim());
+        }
         studentToSave.setDeleted(false);
         return studentRepositories.save(studentToSave);
     }
-    public Boolean deleteStudent(Long id){
-        Boolean res=studentRepositories.existsById(id);
-        if(!res){
+
+    public Boolean deleteStudent(Long id) {
+        if (!studentRepositories.existsById(id)) {
             return false;
         }
         studentRepositories.deleteById(id);
         return true;
     }
 
-    public Boolean softDeleteStudent(Long id){
-        Optional<Student> student = Optional.ofNullable(studentRepositories.deleteByIdAndDeletedIsFalse(id));
-        if(student.isEmpty()){
+    public Boolean softDeleteStudent(Long id) {
+        Optional<Student> studentOpt = studentRepositories.findActiveById(id);
+        if (studentOpt.isEmpty()) {
             return false;
         }
-        Student studentToSave=student.get();
+        Student studentToSave = studentOpt.get();
         studentToSave.setDeleted(true);
+        studentRepositories.save(studentToSave);
+        return true;
+    }
+
+    public Boolean restoreStudent(Long id) {
+        Optional<Student> studentOpt = studentRepositories.findById(id);
+        if (studentOpt.isEmpty()) {
+            return false;
+        }
+        Student studentToSave = studentOpt.get();
+        studentToSave.setDeleted(false);
+        studentRepositories.save(studentToSave);
         return true;
     }
 }
