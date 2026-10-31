@@ -9,9 +9,8 @@ services:
       - key: PORT
         value: 8080
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://db.vkfsgkryhbrzffqtffpj.supabase.co:5432/postgres
+        value: jdbc:postgresql://aws-0-ap-south-1.pooler.supabase.com:5432/postgres
       - key: SPRING_DATASOURCE_USERNAME
-        value: postgres
+        value: postgres.vkfsgkryhbrzffqtffpj
       - key: SPRING_DATASOURCE_PASSWORD
         value: viven123viven
-

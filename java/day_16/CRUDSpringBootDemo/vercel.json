@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "public": true,
-  "buildCommand": null,
   "outputDirectory": "public",
   "cleanUrls": true,
   "routes": [
@@ -14,4 +12,3 @@
     }
   ]
 }
-
