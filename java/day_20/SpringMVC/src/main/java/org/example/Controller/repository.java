@@ -12,6 +12,11 @@ import java.util.List;
 @RequestMapping("/api/student")
 public class repository {
     private studentservice studentservice;
+    // Constructor Injection
+    public repository(studentservice studentservice) {
+        this.studentservice = studentservice;
+    }
+
 
     @PostMapping("/create")
     public ResponseEntity<student> savestudent(@RequestBody student req){
@@ -20,7 +25,7 @@ public class repository {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<student> getbyid(@PathVariable Long id){
+    public ResponseEntity<student> getbyid(@PathVariable("id") Long id){
         student res=studentservice.getid(id);
         if(res==null){
             return ResponseEntity.notFound().build();
