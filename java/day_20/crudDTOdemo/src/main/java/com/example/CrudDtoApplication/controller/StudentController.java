@@ -1,12 +1,16 @@
 package com.example.CrudDtoApplication.controller;
 import com.example.CrudDtoApplication.entity.Student;
+import com.example.CrudDtoApplication.entity.studentDto;
 import com.example.CrudDtoApplication.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+//validations --> request validation
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
@@ -18,10 +22,9 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+    public ResponseEntity<studentDto> createStudent(@Valid  @RequestBody studentDto studentdto) {
 
-        Student createdStudent = studentService.createStudent(student);
-
+        studentDto createdStudent = studentService.createStudent(studentdto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(createdStudent);

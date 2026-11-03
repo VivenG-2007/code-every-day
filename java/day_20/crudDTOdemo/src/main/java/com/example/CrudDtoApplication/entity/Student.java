@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class Student {
 
@@ -17,6 +19,24 @@ public class Student {
     private int rollNo;
     private String subject;
     private Boolean deleted;
+    private LocalDateTime createdat;
+    private LocalDateTime updatedat;
+
+    public LocalDateTime getCreatedat() {
+        return createdat;
+    }
+
+    public void setCreatedat(LocalDateTime createdat) {
+        this.createdat = createdat;
+    }
+
+    public LocalDateTime getUpdatedat() {
+        return updatedat;
+    }
+
+    public void setUpdatedat(LocalDateTime updatedat) {
+        this.updatedat = updatedat;
+    }
 
     public Long getId() {
         return id;

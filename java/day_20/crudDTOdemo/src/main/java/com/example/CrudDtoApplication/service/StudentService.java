@@ -1,8 +1,10 @@
 package com.example.CrudDtoApplication.service;
 import com.example.CrudDtoApplication.entity.Student;
+import com.example.CrudDtoApplication.entity.studentDto;
 import com.example.CrudDtoApplication.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +17,12 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public Student createStudent(Student studentReq) {
-        studentReq.setDeleted(false);
-        Student studentResp = studentRepository.save(studentReq);
-        return studentResp;
+    public studentDto createStudent(studentDto studentReq) {
+        Student student=mapToEntity(studentReq);
+        student.setCreatedat(LocalDateTime.now());
+        student.setUpdatedat(LocalDateTime.now());
+        Student studentres=studentRepository.save(student);
+        return mapToDto(studentres);
     }
 
     public Student getStudent(Long id) {
@@ -78,5 +82,33 @@ public class StudentService {
         studentRepository.save(studentToSave);
 
         return true;
+    }
+
+    private Student mapToEntity(studentDto studentDto){
+        Student student=new Student();
+        student.setId(studentDto.getId());
+        student.setAge(studentDto.getAge());
+        student.setEmail(studentDto.getEmail());
+        student.setName(studentDto.getName());
+        student.setRollNo(studentDto.getRollNo());
+        student.setSubject(studentDto.getSubject());
+        student.setDeleted(false);
+        return student;
+    }
+
+
+    private studentDto mapToDto(Student student){
+        studentDto studentDto=new studentDto();
+        studentDto.setId(student.getId());
+        studentDto.setAge(student.getAge());
+        studentDto.setEmail(student.getEmail());
+        studentDto.setName(student.getName());
+        studentDto.setRollNo(student.getRollNo());
+        studentDto.setSubject(student.getSubject());
+        studentDto.setMessage("Student saved successfully");
+        studentDto.setCreatedat(student.getCreatedat());
+        studentDto.setUpdatedat(student.getUpdatedat());
+        return studentDto;
+
     }
 }
