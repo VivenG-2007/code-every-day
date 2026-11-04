@@ -19,24 +19,8 @@ public class Student {
     private int rollNo;
     private String subject;
     private Boolean deleted;
-    private LocalDateTime createdat;
-    private LocalDateTime updatedat;
-
-    public LocalDateTime getCreatedat() {
-        return createdat;
-    }
-
-    public void setCreatedat(LocalDateTime createdat) {
-        this.createdat = createdat;
-    }
-
-    public LocalDateTime getUpdatedat() {
-        return updatedat;
-    }
-
-    public void setUpdatedat(LocalDateTime updatedat) {
-        this.updatedat = updatedat;
-    }
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Long getId() {
         return id;
@@ -92,5 +76,21 @@ public class Student {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
