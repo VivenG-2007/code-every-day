@@ -1,16 +1,25 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Dto.Studentdto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.Service.implimentations.StudentServiceImplementation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
+@RequiredArgsConstructor
 public class StudentContoller {
+    private final StudentServiceImplementation studentServiceImplementation;
 
     @GetMapping()
-    public Studentdto getStudent(){
-        return new Studentdto(1L,"viven","vivu");
+    public List<Studentdto> getStudent(){
+        return studentServiceImplementation.getAllStudents();
+    }
+
+    @GetMapping("/{id}")
+    public Studentdto getStudentById(@PathVariable Long id){
+        return studentServiceImplementation.getStudentById(id);
     }
 }
