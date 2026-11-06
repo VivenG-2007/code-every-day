@@ -1,8 +1,11 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Dto.AddStudentDto;
 import com.example.demo.Dto.Studentdto;
 import com.example.demo.Service.implimentations.StudentServiceImplementation;
+import com.example.demo.exception.DuplicateResouseException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +23,10 @@ public class StudentContoller {
 
     @GetMapping("/{id}")
     public Studentdto getStudentById(@PathVariable Long id){
-        return studentServiceImplementation.getStudentById(id);
+        return ResponseEntity.ok().body(studentServiceImplementation.getStudentById(id)).getBody();
+    }
+    @PostMapping
+    public ResponseEntity<Studentdto>createstudent(@RequestBody AddStudentDto addStudentDto) throws DuplicateResouseException {
+        return ResponseEntity.ok().body(studentServiceImplementation.createstudent(addStudentDto));
     }
 }
