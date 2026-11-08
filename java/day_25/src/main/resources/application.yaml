@@ -1,2 +1,9 @@
-#spring.application.name=demo
-#app.welcome.value="Local:hello world"
+#spring:
+#  application:
+#    name: demo
+#
+#app:
+#  welcome:
+#    message: "Local:hello world"
+#    code: 101
+#    users: viven,sanjay,narsimha
