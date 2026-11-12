@@ -97,6 +97,7 @@ Become extremely comfortable with Java before touching Spring Boot.
 * Multithreading
 * JVM basics
 * Garbage collection
+* all important things in java
 
 ### DSA
 
