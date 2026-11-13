@@ -974,3 +974,7 @@ React → Next.js
 > **Aim to become the engineer who can understand a problem, choose the right technology, build the system, scale it, secure it, deploy it, and explain why every decision was made.**
 
 ## 🚀 BUILD. BREAK. DEBUG. SCALE. REPEAT........................................
+
+
+
+1>Skipped 4 days from 9/11/26 to 13/22/26 will cover it
